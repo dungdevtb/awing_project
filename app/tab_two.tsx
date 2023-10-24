@@ -12,32 +12,81 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TableAdvertisement from "./table_advertisement";
 import EnhancedTable from "./test";
+import Checkbox from "@mui/material/Checkbox";
 
 const TabTwo = () => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState<boolean>(false);
+  const [campaign, setCampaign] = useState<any>({
+    name: "Chiến dịch con 1",
+    active: false,
+  });
+  const [campaignsArray, setCampaignsArray] = useState<any>([
+    { name: "Chiến dịch con 1", active: false },
+  ]);
+  const [number, setNumber] = useState<any>(1);
+  const [indexActive, setIndexActive] = useState<number>(0);
+
+  const handleAddCampaign = () => {
+    setCampaignsArray([
+      ...campaignsArray,
+      { name: `Chiến dịch con ${number + 1}`, active: false },
+    ]);
+    setCampaign({ name: `Chiến dịch con ${number + 1}`, active: false });
+    setNumber(number + 1);
+    setIndexActive(campaignsArray.length);
+  };
+
+  const handleActive = (campaign: any, index: any) => {
+    setIndexActive(index);
+    setCampaign(campaign);
+  };
+  // console.log(campaign);
 
   const handleToggle = () => {
-    setChecked(!checked);
+    // setChecked(!checked);
+    setCampaign({
+      name: campaign?.name,
+      active: !campaign.active,
+    });
+  };
+
+  const changNameCampaign = (e: any) => {
+    setCampaign({
+      name: e.target.value,
+      active: campaign.active,
+    });
   };
 
   return (
     <div>
       <div className="flex mb-4">
-        <i className="p-3 rounded-full bg-slate-200 h-full">
+        {/* {console.log(campaignsArray)} */}
+        <i
+          className="p-3 rounded-full bg-slate-200 h-full"
+          onClick={handleAddCampaign}
+        >
           <AddIcon style={{ color: "#f50057" }} />
         </i>
-        <Card sx={{ minWidth: 275 }} className="ml-4">
-          <CardContent>
-            <div className="flex items-center">
-              <Typography variant="h5" component="div">
-                Chiến dịch con 1
-              </Typography>
-              <i className={checked ? " ml-2 icon_checked" : "ml-2"}>
-                <CheckCircleIcon style={{ fontSize: 18 }} />
-              </i>
-            </div>
-          </CardContent>
-        </Card>
+        {campaignsArray.map((campaign: any, index: any) => (
+          <Card
+            key={index}
+            className={
+              indexActive === index ? "ml-4  actived" : "ml-4 cursor-pointer"
+            }
+            onClick={() => handleActive(campaign, index)}
+          >
+            <CardContent>
+              <div className="flex items-center">
+                <Typography variant="h5" component="div">
+                  {campaign.name}
+                </Typography>
+                <i className={campaign.active ? " ml-2 icon_checked" : "ml-2"}>
+                  <CheckCircleIcon style={{ fontSize: 18 }} />
+                </i>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       <div className="flex">
@@ -46,18 +95,13 @@ const TabTwo = () => {
           label="Tên chiến dịch con *"
           variant="standard"
           className="w-3/4"
+          defaultValue={campaign?.name}
+          onChange={changNameCampaign}
         />
-
-        {checked ? (
-          <i onClick={handleToggle}>
-            <CheckBoxIcon style={{ color: "#3f51b5" }} />
-          </i>
-        ) : (
-          <i onClick={handleToggle}>
-            <CheckBoxOutlineBlankIcon />
-          </i>
-        )}
-        <span className="ml-4">Đang hoạt động</span>
+        <div className="flex justify-center items-center  ml-4">
+          <Checkbox checked={campaign?.active} onChange={handleToggle} />
+          <span>Đang hoạt động</span>
+        </div>
       </div>
 
       <h1 className="mt-8 text-2xl">DANH SÁCH QUẢNG CÁO</h1>
