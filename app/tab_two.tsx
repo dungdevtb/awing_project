@@ -91,7 +91,7 @@ const TabTwo = () => {
 
       <div className="flex">
         <TextField
-          id="description"
+          id="name"
           label="Tên chiến dịch con *"
           variant="standard"
           className="w-3/4"
