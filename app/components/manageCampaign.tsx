@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 
 import TableAdvertisement from "./table_advertisement";
-import EnhancedTable from "./test";
+import EnhancedTable from "../test";
 
-const TabTwo = () => {
+const ManageCampaign = () => {
   const [campaignsArray, setCampaignsArray] = useState<any>([
     {
       name: "Chiến dịch con 1",
@@ -49,6 +49,24 @@ const TabTwo = () => {
     setNumber(number + 1);
     setIndexActive(campaignsArray.length);
   };
+
+  const handleChangeName=(e:any)=>{
+    setCampaignsArray(campaignsArray.map((item:any,index:any)=>{
+      if(index===indexActive){
+        item.name=e.target.value
+      }
+      return item
+    }))
+  }
+
+  const handleChangeActive=(e:any)=>{
+     setCampaignsArray(campaignsArray.map((item:any,index:any)=>{
+      if(index===indexActive){
+        item.active=e.target.checked
+      }
+      return item
+    }))
+  }
 
   return (
     <div>
@@ -95,13 +113,15 @@ const TabTwo = () => {
                 label="Tên chiến dịch con *"
                 variant="standard"
                 className="w-3/4"
-                defaultValue={item?.name}
-                onChange={(e) => (item.name = e.target.value)}
+                value={item?.name}
+                // onChange={(e) => (item.name = e.target.value)}
+                onChange={handleChangeName}
               />
               <div className="flex justify-center items-center  ml-4">
                 <Checkbox
                   defaultChecked={item?.active}
-                  onChange={() => (item.active = !item.active)}
+                  // onChange={() => (item.active = !item.active)}
+                  onChange={handleChangeActive}
                 />
                 <span>Đang hoạt động</span>
               </div>
@@ -120,6 +140,7 @@ const TabTwo = () => {
                   campaign={item}
                   indexActive={indexActive}
                   campaignsArray={campaignsArray}
+                  setCampaignsArray={setCampaignsArray}
                 />
               </>
             );
@@ -131,4 +152,4 @@ const TabTwo = () => {
   );
 };
 
-export default TabTwo;
+export default ManageCampaign;

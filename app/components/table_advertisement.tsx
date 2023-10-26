@@ -87,6 +87,7 @@ export default function TableAdvertisement({
   campaign,
   indexActive,
   campaignsArray,
+  setCampaignsArray
 }: any) {
   const [number, setNumber] = useState<any>(1);
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -102,6 +103,11 @@ export default function TableAdvertisement({
   };
 
   const handleDeleteAdvertise = (index: any) => {
+    setCampaignsArray(campaignsArray.map((item:any)=>{
+      if(index===indexActive){
+        item
+      }
+    }))
     campaignsArray[indexActive].list_advertise.splice(index, 1);
   };
 
@@ -126,12 +132,13 @@ export default function TableAdvertisement({
       event.target.value
     );
 
-    campaignsArray[indexActive].sum = campaignsArray[
-      indexActive
-    ].list_advertise.reduce(
-      (acc: any, item: any) => acc + Number(item.quantity),
-      0
-    );
+    setCampaignsArray(campaignsArray.map((item:any,index:any)=>{
+      if(index===indexActive){
+        item.sum= campaignsArray[indexActive].list_advertise.reduce(
+        (acc: any, item: any) => acc + Number(item.quantity),0)
+      }
+      return item
+    }))
   };
 
   return (

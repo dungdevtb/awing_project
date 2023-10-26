@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 
-const TabOne = () => {
+const InfoCampaign = () => {
   return (
     <div>
       <TextField
@@ -16,4 +16,4 @@ const TabOne = () => {
   );
 };
 
-export default TabOne;
+export default InfoCampaign;
