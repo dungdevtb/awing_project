@@ -13,11 +13,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Toolbar,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import { alpha } from "@mui/material/styles";
 
 interface EnhancedTableProps {
   numSelected: number;
@@ -65,7 +62,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         ) : (
           <>
             <TableCell>Tên quảng cáo *</TableCell>
-            <TableCell align="left">Số lượng</TableCell>
+            <TableCell align="left">Số lượng *</TableCell>
           </>
         )}
 
@@ -79,51 +76,51 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-export default function TableAdvertisement() {
-  const [advertise, setAdvertise] = useState<any>({
-    id: 0,
-    name: "Quảng cáo 1",
-    quantity: 0,
-  });
-  const [advertiseArray, setAdvertiseArray] = useState<any>([
-    {
-      id: 1,
-      name: "Quảng cáo 1",
-      quantity: 0,
-    },
-  ]);
+export default function TableAdvertisement({
+  campaign,
+  indexActive,
+  campaignsArray,
+}: any) {
   const [number, setNumber] = useState<any>(1);
-
   const [selected, setSelected] = React.useState<readonly number[]>([]);
 
   const handleAddAdvertise = () => {
-    setAdvertiseArray([
-      ...advertiseArray,
-      {
-        id: number + 1,
-        name: `Quảng cáo ${advertiseArray.length + 1}`,
-        quantity: 0,
-      },
-    ]);
-    setAdvertise({ name: `Quảng cáo ${number + 1}`, quantity: 0 });
+    campaignsArray[indexActive].list_advertise.push({
+      id: number + 1,
+      name: `Quảng cáo ${campaign.list_advertise.length + 1}`,
+      quantity: 0,
+    });
+
     setNumber(number + 1);
   };
 
   const handleDeleteAdvertise = (index: any) => {
-    setAdvertiseArray(
-      advertiseArray.filter((item: any, i: any) => i !== index)
-    );
+    campaignsArray[indexActive].list_advertise.splice(index, 1);
   };
 
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
-  // console.log(advertiseArray);
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = advertiseArray.map((n: any) => n.id);
+      const newSelected = campaignsArray[indexActive].list_advertise.map(
+        (n: any) => n.id
+      );
       setSelected(newSelected);
       return;
     }
     setSelected([]);
+  };
+
+  const handleChangeQuantity = (event: any, index: number) => {
+    campaignsArray[indexActive].list_advertise[index].quantity = Number(
+      event.target.value
+    );
+
+    campaignsArray[indexActive].sum = campaignsArray[
+      indexActive
+    ].list_advertise.reduce(
+      (acc: any, item: any) => acc + Number(item.quantity),
+      0
+    );
   };
 
   return (
@@ -133,13 +130,13 @@ export default function TableAdvertisement() {
           numSelected={selected.length}
           onAddClick={handleAddAdvertise}
           onSelectAllClick={handleSelectAllClick}
-          rowCount={advertiseArray.length}
+          rowCount={campaignsArray[indexActive].list_advertise.length}
         />
 
         <TableBody>
-          {advertiseArray.map((item: any, index: number) => {
+          {campaign.list_advertise.map((item: any, index: number) => {
             const isItemSelected = isSelected(item.id);
-            console.log(isItemSelected, item.id);
+            // console.log(isItemSelected, item.id);
 
             return (
               <TableRow
@@ -158,6 +155,7 @@ export default function TableAdvertisement() {
                     variant="standard"
                     className="w-full"
                     defaultValue={item.name}
+                    onChange={(e) => (item.name = e.target.value)}
                   />
                 </TableCell>
                 <TableCell align="left">
@@ -166,7 +164,15 @@ export default function TableAdvertisement() {
                     id="quantity"
                     variant="standard"
                     className="w-full"
+                    type="number"
+                    InputProps={{
+                      inputProps: {
+                        max: 100,
+                        min: 0,
+                      },
+                    }}
                     defaultValue={item.quantity}
+                    onChange={(e) => handleChangeQuantity(e, index)}
                   />
                 </TableCell>
                 <TableCell align="right">

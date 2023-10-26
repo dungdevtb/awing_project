@@ -1,14 +1,10 @@
 "use client";
 
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
+import { Box, Tab, Button } from "@mui/material";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
 import TabOne from "./tab_one";
 import TabTwo from "./tab_two";
-import Button from "@mui/material/Button";
 
 export default function LabTabs() {
   const [value, setValue] = React.useState("2");
