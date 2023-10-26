@@ -21,10 +21,17 @@ interface EnhancedTableProps {
   rowCount: number;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onAddClick: () => void;
+  handleDeleteAll: () => void;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { onSelectAllClick, numSelected, rowCount, onAddClick } = props;
+  const {
+    onSelectAllClick,
+    numSelected,
+    rowCount,
+    onAddClick,
+    handleDeleteAll,
+  } = props;
 
   return (
     <TableHead>
@@ -49,10 +56,10 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                 variant="subtitle1"
                 component="div"
               >
-                {numSelected} selected
+                {numSelected} đã chọn
               </Typography>
-              <Tooltip title="Delete">
-                <IconButton>
+              <Tooltip title="Xóa">
+                <IconButton onClick={handleDeleteAll}>
                   <DeleteIcon />
                 </IconButton>
               </Tooltip>
@@ -98,7 +105,6 @@ export default function TableAdvertisement({
     campaignsArray[indexActive].list_advertise.splice(index, 1);
   };
 
-  const isSelected = (id: number) => selected.indexOf(id) !== -1;
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = campaignsArray[indexActive].list_advertise.map(
@@ -108,6 +114,11 @@ export default function TableAdvertisement({
       return;
     }
     setSelected([]);
+  };
+  const isSelected = (id: number) => selected.indexOf(id) !== -1;
+
+  const handleDeleteAll = () => {
+    campaignsArray[indexActive].list_advertise.splice(0);
   };
 
   const handleChangeQuantity = (event: any, index: number) => {
@@ -130,6 +141,7 @@ export default function TableAdvertisement({
           numSelected={selected.length}
           onAddClick={handleAddAdvertise}
           onSelectAllClick={handleSelectAllClick}
+          handleDeleteAll={handleDeleteAll}
           rowCount={campaignsArray[indexActive].list_advertise.length}
         />
 
@@ -148,7 +160,11 @@ export default function TableAdvertisement({
                 selected={isItemSelected}
               >
                 <TableCell padding="checkbox">
-                  <Checkbox color="primary" defaultChecked={isItemSelected} />
+                  <Checkbox
+                    color="primary"
+                    checked={isItemSelected}
+                    onChange={() => console.log("change")}
+                  />
                 </TableCell>
                 <TableCell component="th" scope="row">
                   <TextField
@@ -176,7 +192,7 @@ export default function TableAdvertisement({
                   />
                 </TableCell>
                 <TableCell align="right">
-                  <Tooltip title="Delete">
+                  <Tooltip title="Xóa">
                     <IconButton onClick={() => handleDeleteAdvertise(index)}>
                       <DeleteIcon />
                     </IconButton>
