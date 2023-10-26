@@ -3,8 +3,8 @@
 import * as React from "react";
 import { Box, Tab, Button } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import TabOne from "./tab_one";
-import TabTwo from "./tab_two";
+import InfoCampaign from "./components/infoCampaign";
+import ManageCampaign from "./components/manageCampaign";
 
 export default function LabTabs() {
   const [value, setValue] = React.useState("2");
@@ -28,10 +28,10 @@ export default function LabTabs() {
             </TabList>
           </Box>
           <TabPanel value="1">
-            <TabOne />
+            <InfoCampaign />
           </TabPanel>
           <TabPanel value="2">
-            <TabTwo />
+            <ManageCampaign />
           </TabPanel>
         </TabContext>
       </Box>

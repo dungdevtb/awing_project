@@ -103,12 +103,35 @@ export default function TableAdvertisement({
   };
 
   const handleDeleteAdvertise = (index: any) => {
-    setCampaignsArray(campaignsArray.map((item:any)=>{
+
+    console.log(campaignsArray,index);
+    
+    // setCampaignsArray(campaignsArray.map((item:any)=>{
+    //   if(index===indexActive){
+    //    item.list_advertise = item.list_advertise.splice(index, 1)
+    //   }
+    // }))
+
+
+  let val=  campaignsArray.map((item:any)=>{
       if(index===indexActive){
-        item
+
+        // console.log(item.list_advertise,index);
+
+        // console.log(item.list_advertise.splice(index, 1),'fjkasdhfjkasdhjk');
+        let newArray = item.list_advertise.filter((item:any)=>{
+          return item.id !== index + 1
+        })
+
+        console.log(newArray,"newArray");
+        
+        item.list_advertise = newArray
+        // item.list_advertise.splice(index, 1)
       }
-    }))
-    campaignsArray[indexActive].list_advertise.splice(index, 1);
+    })
+    console.log(val);
+    
+    // campaignsArray[indexActive].list_advertise.splice(index, 1);
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
