@@ -12,7 +12,12 @@ import {
 import TableAdvertisement from "./table_advertisement";
 import EnhancedTable from "../test";
 
-const ManageCampaign = () => {
+const ManageCampaign = ({
+  data,
+  setData,
+  formValidate,
+  setFormValidate,
+}: any) => {
   const [campaignsArray, setCampaignsArray] = useState<any>([
     {
       name: "Chiến dịch con 1",
@@ -48,6 +53,10 @@ const ManageCampaign = () => {
     ]);
     setNumber(number + 1);
     setIndexActive(campaignsArray.length);
+    setData({
+      ...data,
+      manageCampaign: campaignsArray,
+    });
   };
 
   const handleChangeName = (e: any) => {
@@ -59,6 +68,10 @@ const ManageCampaign = () => {
         return item;
       })
     );
+    setData({
+      ...data,
+      manageCampaign: campaignsArray,
+    });
   };
 
   const handleChangeActive = (e: any) => {
@@ -70,7 +83,13 @@ const ManageCampaign = () => {
         return item;
       })
     );
+    setData({
+      ...data,
+      manageCampaign: campaignsArray,
+    });
   };
+
+  // console.log(campaignsArray);
 
   return (
     <div>
@@ -91,7 +110,11 @@ const ManageCampaign = () => {
           >
             <CardContent>
               <div className="flex items-center">
-                <Typography variant="h5" component="div">
+                <Typography
+                  variant="h5"
+                  component="div"
+                  className={formValidate.nameSubCampaign.class}
+                >
                   {item.name}
                 </Typography>
                 <i className={item.active ? " ml-2 icon_checked" : "ml-2"}>
@@ -143,6 +166,10 @@ const ManageCampaign = () => {
                   indexActive={indexActive}
                   campaignsArray={campaignsArray}
                   setCampaignsArray={setCampaignsArray}
+                  data={data}
+                  setData={setData}
+                  formValidate={formValidate}
+                  setFormValidate={setFormValidate}
                 />
               </>
             );

@@ -88,6 +88,10 @@ export default function TableAdvertisement({
   indexActive,
   campaignsArray,
   setCampaignsArray,
+  data,
+  setData,
+  formValidate,
+  setFormValidate,
 }: any) {
   const [number, setNumber] = useState<any>(1);
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -109,6 +113,10 @@ export default function TableAdvertisement({
         return cam;
       })
     );
+    setData({
+      ...data,
+      manageCampaign: campaignsArray,
+    });
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -132,6 +140,10 @@ export default function TableAdvertisement({
       })
     );
     setSelected([]);
+    setData({
+      ...data,
+      manageCampaign: campaignsArray,
+    });
   };
 
   const handleChangeQuantity = (event: any, index: number) => {
@@ -150,6 +162,22 @@ export default function TableAdvertisement({
         return item;
       })
     );
+
+    setData({
+      ...data,
+      manageCampaign: campaignsArray,
+    });
+
+    setFormValidate({
+      ...formValidate,
+      quantity: {
+        error: false,
+        errorMessage: "",
+      },
+      nameSubCampaign: {
+        name: "",
+      },
+    });
   };
 
   const handleSelectAddvertise = (event: any, id: number) => {
@@ -223,6 +251,12 @@ export default function TableAdvertisement({
                         min: 0,
                       },
                     }}
+                    error={formValidate.quantity.error}
+                    // helperText={
+                    //   formValidate.quantity.error === true
+                    //     ? formValidate.quantity.errorMessage
+                    //     : ""
+                    // }
                     defaultValue={item.quantity}
                     onChange={(e) => handleChangeQuantity(e, index)}
                   />
