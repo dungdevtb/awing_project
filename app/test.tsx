@@ -323,6 +323,8 @@ export default function EnhancedTable() {
     [order, orderBy, page, rowsPerPage]
   );
 
+  // console.log(selected);
+
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>

@@ -87,7 +87,7 @@ export default function TableAdvertisement({
   campaign,
   indexActive,
   campaignsArray,
-  setCampaignsArray
+  setCampaignsArray,
 }: any) {
   const [number, setNumber] = useState<any>(1);
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -103,35 +103,12 @@ export default function TableAdvertisement({
   };
 
   const handleDeleteAdvertise = (index: any) => {
-
-    console.log(campaignsArray,index);
-    
-    // setCampaignsArray(campaignsArray.map((item:any)=>{
-    //   if(index===indexActive){
-    //    item.list_advertise = item.list_advertise.splice(index, 1)
-    //   }
-    // }))
-
-
-  let val=  campaignsArray.map((item:any)=>{
-      if(index===indexActive){
-
-        // console.log(item.list_advertise,index);
-
-        // console.log(item.list_advertise.splice(index, 1),'fjkasdhfjkasdhjk');
-        let newArray = item.list_advertise.filter((item:any)=>{
-          return item.id !== index + 1
-        })
-
-        console.log(newArray,"newArray");
-        
-        item.list_advertise = newArray
-        // item.list_advertise.splice(index, 1)
-      }
-    })
-    console.log(val);
-    
-    // campaignsArray[indexActive].list_advertise.splice(index, 1);
+    setCampaignsArray(
+      campaignsArray.map((cam: any) => {
+        cam.list_advertise.splice(index, 1);
+        return cam;
+      })
+    );
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,10 +121,17 @@ export default function TableAdvertisement({
     }
     setSelected([]);
   };
+
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
   const handleDeleteAll = () => {
-    campaignsArray[indexActive].list_advertise.splice(0);
+    setCampaignsArray(
+      campaignsArray.map((cam: any) => {
+        cam.list_advertise.splice(0);
+        return cam;
+      })
+    );
+    setSelected([]);
   };
 
   const handleChangeQuantity = (event: any, index: number) => {
@@ -155,13 +139,36 @@ export default function TableAdvertisement({
       event.target.value
     );
 
-    setCampaignsArray(campaignsArray.map((item:any,index:any)=>{
-      if(index===indexActive){
-        item.sum= campaignsArray[indexActive].list_advertise.reduce(
-        (acc: any, item: any) => acc + Number(item.quantity),0)
-      }
-      return item
-    }))
+    setCampaignsArray(
+      campaignsArray.map((item: any, index: any) => {
+        if (index === indexActive) {
+          item.sum = campaignsArray[indexActive].list_advertise.reduce(
+            (acc: any, item: any) => acc + Number(item.quantity),
+            0
+          );
+        }
+        return item;
+      })
+    );
+  };
+
+  const handleSelectAddvertise = (event: any, id: number) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected: readonly number[] = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    setSelected(newSelected);
   };
 
   return (
@@ -178,7 +185,6 @@ export default function TableAdvertisement({
         <TableBody>
           {campaign.list_advertise.map((item: any, index: number) => {
             const isItemSelected = isSelected(item.id);
-            // console.log(isItemSelected, item.id);
 
             return (
               <TableRow
@@ -193,7 +199,7 @@ export default function TableAdvertisement({
                   <Checkbox
                     color="primary"
                     checked={isItemSelected}
-                    onChange={() => console.log("change")}
+                    onChange={(e) => handleSelectAddvertise(e, item.id)}
                   />
                 </TableCell>
                 <TableCell component="th" scope="row">

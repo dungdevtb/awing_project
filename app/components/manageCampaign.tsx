@@ -50,23 +50,27 @@ const ManageCampaign = () => {
     setIndexActive(campaignsArray.length);
   };
 
-  const handleChangeName=(e:any)=>{
-    setCampaignsArray(campaignsArray.map((item:any,index:any)=>{
-      if(index===indexActive){
-        item.name=e.target.value
-      }
-      return item
-    }))
-  }
+  const handleChangeName = (e: any) => {
+    setCampaignsArray(
+      campaignsArray.map((item: any, index: any) => {
+        if (index === indexActive) {
+          item.name = e.target.value;
+        }
+        return item;
+      })
+    );
+  };
 
-  const handleChangeActive=(e:any)=>{
-     setCampaignsArray(campaignsArray.map((item:any,index:any)=>{
-      if(index===indexActive){
-        item.active=e.target.checked
-      }
-      return item
-    }))
-  }
+  const handleChangeActive = (e: any) => {
+    setCampaignsArray(
+      campaignsArray.map((item: any, index: any) => {
+        if (index === indexActive) {
+          item.active = e.target.checked;
+        }
+        return item;
+      })
+    );
+  };
 
   return (
     <div>
@@ -114,13 +118,11 @@ const ManageCampaign = () => {
                 variant="standard"
                 className="w-3/4"
                 value={item?.name}
-                // onChange={(e) => (item.name = e.target.value)}
                 onChange={handleChangeName}
               />
               <div className="flex justify-center items-center  ml-4">
                 <Checkbox
                   defaultChecked={item?.active}
-                  // onChange={() => (item.active = !item.active)}
                   onChange={handleChangeActive}
                 />
                 <span>Đang hoạt động</span>
@@ -146,7 +148,6 @@ const ManageCampaign = () => {
             );
           }
         })}
-        {/* <EnhancedTable /> */}
       </div>
     </div>
   );

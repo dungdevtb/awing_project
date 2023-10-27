@@ -10,6 +10,7 @@ const InfoCampaign = () => {
         variant="standard"
         fullWidth
         className="mb-4"
+        error
       />
       <TextField id="description" label="Mô tả" variant="standard" fullWidth />
     </div>
