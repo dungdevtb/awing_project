@@ -3,13 +3,13 @@
 import React, { useState } from "react";
 import { Box, Tab, Button } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Campaign } from "./types/interface";
+import { Campaign, FormValidate } from "./types/interface";
 import InfoCampaign from "./components/infoCampaign";
 import ManageCampaign from "./components/manageCampaign";
 
 export default function LabTabs() {
-  const [value, setValue] = useState<string>("1");
-  const [formValidate, setFormValidate] = useState<any>({
+  const [value, setValue] = useState<string>("2");
+  const [formValidate, setFormValidate] = useState<FormValidate>({
     name: {
       error: false,
       errorMessage: "Vui lòng nhập tên chiến dịch!",
@@ -43,25 +43,27 @@ export default function LabTabs() {
     setValue(newValue);
   };
 
+  // console.log(data.subCampaigns.length);
+
   const handleSubmit = () => {
-    alert("Thêm thành công chiến dịch <3" + JSON.stringify(data));
-    // if (data.information.name === "" && data.subCampaigns.length === 0) {
-    //   alert("Thông tin chưa được nhập đầy đủ!");
-    //   return setFormValidate({
-    //     ...formValidate,
-    //     name: {
-    //       error: true,
-    //       errorMessage: "Vui lòng nhập tên chiến dịch!",
-    //     },
-    //     quantity: {
-    //       error: true,
-    //       errorMessage: "Vui lòng nhập số lượng > 0!",
-    //     },
-    //     nameSubCampaign: {
-    //       class: "text-red-500",
-    //     },
-    //   });
-    // }
+    // alert("Thêm thành công chiến dịch <3" + JSON.stringify(data));
+    if (data.information.name === "") {
+      alert("Thông tin chưa được nhập đầy đủ!");
+      return setFormValidate({
+        ...formValidate,
+        name: {
+          error: true,
+          errorMessage: "Vui lòng nhập tên chiến dịch!",
+        },
+        quantity: {
+          error: true,
+          errorMessage: "Vui lòng nhập số lượng > 0!",
+        },
+        nameSubCampaign: {
+          class: "text-red-500",
+        },
+      });
+    }
     // if (data.information.name === "") {
     //   alert("Tên chiến dịch chưa được nhập đầy đủ!");
     //   setFormValidate({
@@ -118,8 +120,8 @@ export default function LabTabs() {
             <ManageCampaign
               data={data}
               setData={setData}
-              // formValidate={formValidate}
-              // setFormValidate={setFormValidate}
+              formValidate={formValidate}
+              setFormValidate={setFormValidate}
             />
           </TabPanel>
         </TabContext>

@@ -90,9 +90,9 @@ export default function TableAdvertisement({
   setCampaignsArray,
   data,
   setData,
-}: // formValidate,
-// setFormValidate,
-any) {
+  formValidate,
+  setFormValidate,
+}: any) {
   const [number, setNumber] = useState<any>(1);
   const [selected, setSelected] = React.useState<readonly number[]>([]);
 
@@ -104,6 +104,10 @@ any) {
     });
 
     setNumber(number + 1);
+    setData({
+      ...data,
+      subCampaigns: campaignsArray,
+    });
   };
 
   const handleDeleteAdvertise = (index: any) => {
@@ -115,7 +119,7 @@ any) {
     );
     setData({
       ...data,
-      manageCampaign: campaignsArray,
+      subCampaigns: campaignsArray,
     });
   };
 
@@ -140,7 +144,7 @@ any) {
     setSelected([]);
     setData({
       ...data,
-      manageCampaign: campaignsArray,
+      subCampaigns: campaignsArray,
     });
   };
 
@@ -163,19 +167,19 @@ any) {
 
     setData({
       ...data,
-      manageCampaign: campaignsArray,
+      subCampaigns: campaignsArray,
     });
 
-    // setFormValidate({
-    //   ...formValidate,
-    //   quantity: {
-    //     error: false,
-    //     errorMessage: "",
-    //   },
-    //   nameSubCampaign: {
-    //     name: "",
-    //   },
-    // });
+    setFormValidate({
+      ...formValidate,
+      quantity: {
+        error: false,
+        errorMessage: "",
+      },
+      nameSubCampaign: {
+        name: "",
+      },
+    });
   };
 
   const handleSelectAddvertise = (event: any, id: number) => {
@@ -249,7 +253,7 @@ any) {
                         min: 0,
                       },
                     }}
-                    // error={formValidate.quantity.error}
+                    error={formValidate.quantity.error}
                     // helperText={
                     //   formValidate.quantity.error === true
                     //     ? formValidate.quantity.errorMessage

@@ -1,7 +1,21 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 
-const Information = ({ formValidate, setFormValidate, data, setData }: any) => {
+import { Campaign, FormValidate, SubCampaigns } from "../types/interface";
+
+export interface subCampaignsProps {
+  data: Campaign;
+  setData: (data: any) => void;
+  formValidate: FormValidate;
+  setFormValidate: (formValidate: any) => void;
+}
+
+const Information = ({
+  formValidate,
+  setFormValidate,
+  data,
+  setData,
+}: subCampaignsProps) => {
   const handleChangeName = (e: any) => {
     setFormValidate({
       ...formValidate,
@@ -40,7 +54,7 @@ const Information = ({ formValidate, setFormValidate, data, setData }: any) => {
         label="Mô tả"
         variant="standard"
         fullWidth
-        defaultValue={data.information.desc}
+        defaultValue={data.information.describe}
         onChange={(e) =>
           setData({
             ...data,

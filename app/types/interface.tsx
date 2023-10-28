@@ -30,3 +30,17 @@ export interface SubCampaigns {
     }
   ];
 }
+
+export interface FormValidate {
+  name: {
+    error: boolean;
+    errorMessage: string;
+  };
+  quantity: {
+    error: boolean;
+    errorMessage: string;
+  };
+  nameSubCampaign: {
+    class: string;
+  };
+}

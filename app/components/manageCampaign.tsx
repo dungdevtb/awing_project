@@ -10,21 +10,21 @@ import {
 } from "@mui/material";
 
 import TableAdvertisement from "./table_advertisement";
-import { Campaign, SubCampaigns } from "../types/interface";
+import { Campaign, FormValidate, SubCampaigns } from "../types/interface";
 
 export interface subCampaignsProps {
   data: Campaign;
   setData: (data: any) => void;
-  // formValidate: any;
-  // setFormValidate: any;
+  formValidate: FormValidate;
+  setFormValidate: (formValidate: any) => void;
 }
 
 const ManageCampaign = ({
   data,
   setData,
-}: // formValidate,
-// setFormValidate,
-subCampaignsProps) => {
+  formValidate,
+  setFormValidate,
+}: subCampaignsProps) => {
   const [campaignsArray, setCampaignsArray] = useState<Array<SubCampaigns>>([
     {
       name: "Chiến dịch con 1",
@@ -39,7 +39,7 @@ subCampaignsProps) => {
       ],
     },
   ]);
-  const [number, setNumber] = useState<any>(1);
+  const [number, setNumber] = useState<number>(1);
   const [indexActive, setIndexActive] = useState<number>(0);
 
   const handleAddCampaign = () => {
@@ -97,6 +97,7 @@ subCampaignsProps) => {
   };
 
   // console.log(campaignsArray);
+  console.log(data);
 
   return (
     <div>
@@ -120,10 +121,11 @@ subCampaignsProps) => {
                 <Typography
                   variant="h5"
                   component="div"
-                  // className={formValidate.nameSubCampaign.class}
+                  className={formValidate.nameSubCampaign.class}
                 >
                   {item.name}
                 </Typography>
+
                 <i className={item.status ? " ml-2 icon_checked" : "ml-2"}>
                   <CheckCircleIcon style={{ fontSize: 18 }} />
                 </i>
@@ -175,8 +177,8 @@ subCampaignsProps) => {
                   setCampaignsArray={setCampaignsArray}
                   data={data}
                   setData={setData}
-                  // formValidate={formValidate}
-                  // setFormValidate={setFormValidate}
+                  formValidate={formValidate}
+                  setFormValidate={setFormValidate}
                 />
               </>
             );
