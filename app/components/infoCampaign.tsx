@@ -1,12 +1,7 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 
-const InfoCampaign = ({
-  formValidate,
-  setFormValidate,
-  data,
-  setData,
-}: any) => {
+const Information = ({ formValidate, setFormValidate, data, setData }: any) => {
   const handleChangeName = (e: any) => {
     setFormValidate({
       ...formValidate,
@@ -18,8 +13,8 @@ const InfoCampaign = ({
 
     setData({
       ...data,
-      infoCampaign: {
-        ...data.infoCampaign,
+      information: {
+        ...data.information,
         name: e.target.value,
       },
     });
@@ -37,7 +32,7 @@ const InfoCampaign = ({
         helperText={
           formValidate.name.error === true ? formValidate.name.errorMessage : ""
         }
-        defaultValue={data.infoCampaign.name}
+        defaultValue={data.information.name}
         onChange={handleChangeName}
       />
       <TextField
@@ -45,12 +40,12 @@ const InfoCampaign = ({
         label="Mô tả"
         variant="standard"
         fullWidth
-        defaultValue={data.infoCampaign.desc}
+        defaultValue={data.information.desc}
         onChange={(e) =>
           setData({
             ...data,
-            infoCampaign: {
-              ...data.infoCampaign,
+            information: {
+              ...data.information,
               desc: e.target.value,
             },
           })
@@ -60,4 +55,4 @@ const InfoCampaign = ({
   );
 };
 
-export default InfoCampaign;
+export default Information;

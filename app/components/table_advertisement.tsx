@@ -90,16 +90,16 @@ export default function TableAdvertisement({
   setCampaignsArray,
   data,
   setData,
-  formValidate,
-  setFormValidate,
-}: any) {
+}: // formValidate,
+// setFormValidate,
+any) {
   const [number, setNumber] = useState<any>(1);
   const [selected, setSelected] = React.useState<readonly number[]>([]);
 
   const handleAddAdvertise = () => {
-    campaignsArray[indexActive].list_advertise.push({
+    campaignsArray[indexActive].ads.push({
       id: number + 1,
-      name: `Quảng cáo ${campaign.list_advertise.length + 1}`,
+      name: `Quảng cáo ${campaign.ads.length + 1}`,
       quantity: 0,
     });
 
@@ -109,7 +109,7 @@ export default function TableAdvertisement({
   const handleDeleteAdvertise = (index: any) => {
     setCampaignsArray(
       campaignsArray.map((cam: any) => {
-        cam.list_advertise.splice(index, 1);
+        cam.ads.splice(index, 1);
         return cam;
       })
     );
@@ -121,9 +121,7 @@ export default function TableAdvertisement({
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = campaignsArray[indexActive].list_advertise.map(
-        (n: any) => n.id
-      );
+      const newSelected = campaignsArray[indexActive].ads.map((n: any) => n.id);
       setSelected(newSelected);
       return;
     }
@@ -135,7 +133,7 @@ export default function TableAdvertisement({
   const handleDeleteAll = () => {
     setCampaignsArray(
       campaignsArray.map((cam: any) => {
-        cam.list_advertise.splice(0);
+        cam.ads.splice(0);
         return cam;
       })
     );
@@ -147,14 +145,14 @@ export default function TableAdvertisement({
   };
 
   const handleChangeQuantity = (event: any, index: number) => {
-    campaignsArray[indexActive].list_advertise[index].quantity = Number(
+    campaignsArray[indexActive].ads[index].quantity = Number(
       event.target.value
     );
 
     setCampaignsArray(
       campaignsArray.map((item: any, index: any) => {
         if (index === indexActive) {
-          item.sum = campaignsArray[indexActive].list_advertise.reduce(
+          item.sum = campaignsArray[indexActive].ads.reduce(
             (acc: any, item: any) => acc + Number(item.quantity),
             0
           );
@@ -168,16 +166,16 @@ export default function TableAdvertisement({
       manageCampaign: campaignsArray,
     });
 
-    setFormValidate({
-      ...formValidate,
-      quantity: {
-        error: false,
-        errorMessage: "",
-      },
-      nameSubCampaign: {
-        name: "",
-      },
-    });
+    // setFormValidate({
+    //   ...formValidate,
+    //   quantity: {
+    //     error: false,
+    //     errorMessage: "",
+    //   },
+    //   nameSubCampaign: {
+    //     name: "",
+    //   },
+    // });
   };
 
   const handleSelectAddvertise = (event: any, id: number) => {
@@ -207,11 +205,11 @@ export default function TableAdvertisement({
           onAddClick={handleAddAdvertise}
           onSelectAllClick={handleSelectAllClick}
           handleDeleteAll={handleDeleteAll}
-          rowCount={campaignsArray[indexActive].list_advertise.length}
+          rowCount={campaignsArray[indexActive].ads.length}
         />
 
         <TableBody>
-          {campaign.list_advertise.map((item: any, index: number) => {
+          {campaign.ads.map((item: any, index: number) => {
             const isItemSelected = isSelected(item.id);
 
             return (
@@ -251,7 +249,7 @@ export default function TableAdvertisement({
                         min: 0,
                       },
                     }}
-                    error={formValidate.quantity.error}
+                    // error={formValidate.quantity.error}
                     // helperText={
                     //   formValidate.quantity.error === true
                     //     ? formValidate.quantity.errorMessage

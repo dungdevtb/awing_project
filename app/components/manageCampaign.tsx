@@ -10,20 +10,27 @@ import {
 } from "@mui/material";
 
 import TableAdvertisement from "./table_advertisement";
-import EnhancedTable from "../test";
+import { Campaign, SubCampaigns } from "../types/interface";
+
+export interface subCampaignsProps {
+  data: Campaign;
+  setData: (data: any) => void;
+  // formValidate: any;
+  // setFormValidate: any;
+}
 
 const ManageCampaign = ({
   data,
   setData,
-  formValidate,
-  setFormValidate,
-}: any) => {
-  const [campaignsArray, setCampaignsArray] = useState<any>([
+}: // formValidate,
+// setFormValidate,
+subCampaignsProps) => {
+  const [campaignsArray, setCampaignsArray] = useState<Array<SubCampaigns>>([
     {
       name: "Chiến dịch con 1",
-      active: false,
+      status: false,
       sum: 0,
-      list_advertise: [
+      ads: [
         {
           id: 1,
           name: "Quảng cáo 1",
@@ -40,9 +47,9 @@ const ManageCampaign = ({
       ...campaignsArray,
       {
         name: `Chiến dịch con ${number + 1}`,
-        active: false,
+        status: false,
         sum: 0,
-        list_advertise: [
+        ads: [
           {
             id: 1,
             name: "Quảng cáo 1",
@@ -55,7 +62,7 @@ const ManageCampaign = ({
     setIndexActive(campaignsArray.length);
     setData({
       ...data,
-      manageCampaign: campaignsArray,
+      subCampaigns: campaignsArray,
     });
   };
 
@@ -70,7 +77,7 @@ const ManageCampaign = ({
     );
     setData({
       ...data,
-      manageCampaign: campaignsArray,
+      subCampaigns: campaignsArray,
     });
   };
 
@@ -78,14 +85,14 @@ const ManageCampaign = ({
     setCampaignsArray(
       campaignsArray.map((item: any, index: any) => {
         if (index === indexActive) {
-          item.active = e.target.checked;
+          item.status = e.target.checked;
         }
         return item;
       })
     );
     setData({
       ...data,
-      manageCampaign: campaignsArray,
+      subCampaigns: campaignsArray,
     });
   };
 
@@ -113,11 +120,11 @@ const ManageCampaign = ({
                 <Typography
                   variant="h5"
                   component="div"
-                  className={formValidate.nameSubCampaign.class}
+                  // className={formValidate.nameSubCampaign.class}
                 >
                   {item.name}
                 </Typography>
-                <i className={item.active ? " ml-2 icon_checked" : "ml-2"}>
+                <i className={item.status ? " ml-2 icon_checked" : "ml-2"}>
                   <CheckCircleIcon style={{ fontSize: 18 }} />
                 </i>
               </div>
@@ -145,7 +152,7 @@ const ManageCampaign = ({
               />
               <div className="flex justify-center items-center  ml-4">
                 <Checkbox
-                  defaultChecked={item?.active}
+                  defaultChecked={item?.status}
                   onChange={handleChangeActive}
                 />
                 <span>Đang hoạt động</span>
@@ -168,8 +175,8 @@ const ManageCampaign = ({
                   setCampaignsArray={setCampaignsArray}
                   data={data}
                   setData={setData}
-                  formValidate={formValidate}
-                  setFormValidate={setFormValidate}
+                  // formValidate={formValidate}
+                  // setFormValidate={setFormValidate}
                 />
               </>
             );
