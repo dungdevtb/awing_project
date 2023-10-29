@@ -60,7 +60,7 @@ const Information = ({
             ...data,
             information: {
               ...data.information,
-              desc: e.target.value,
+              describe: e.target.value,
             },
           })
         }

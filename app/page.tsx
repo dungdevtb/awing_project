@@ -14,14 +14,8 @@ export default function LabTabs() {
       error: false,
       errorMessage: "Vui lòng nhập tên chiến dịch!",
     },
-    quantity: {
-      error: false,
-      errorMessage: "Vui lòng nhập số lượng > 0!",
-    },
-    nameSubCampaign: {
-      class: "",
-    },
   });
+  const [submit, setSubmit] = useState<boolean>(false);
 
   const [data, setData] = useState<Campaign>({
     information: { name: "", describe: "" },
@@ -29,8 +23,10 @@ export default function LabTabs() {
       {
         name: "Chiến dịch con 1",
         status: true,
+        sum: 0,
         ads: [
           {
+            id: 1,
             name: "Quảng cáo 1",
             quantity: 0,
           },
@@ -43,10 +39,15 @@ export default function LabTabs() {
     setValue(newValue);
   };
 
-  // console.log(data.subCampaigns.length);
+  let checkQuantity = data.subCampaigns.map((sub: any) =>
+    sub.ads.find((a: any) => a.quantity === 0)
+  );
 
   const handleSubmit = () => {
     // alert("Thêm thành công chiến dịch <3" + JSON.stringify(data));
+    setSubmit(true);
+
+    let check = checkQuantity.find((val) => val?.quantity === 0);
     if (data.information.name === "") {
       alert("Thông tin chưa được nhập đầy đủ!");
       return setFormValidate({
@@ -55,48 +56,17 @@ export default function LabTabs() {
           error: true,
           errorMessage: "Vui lòng nhập tên chiến dịch!",
         },
-        quantity: {
-          error: true,
-          errorMessage: "Vui lòng nhập số lượng > 0!",
-        },
-        nameSubCampaign: {
-          class: "text-red-500",
-        },
       });
+    } else if (typeof check === "object") {
+      alert("Số lượng quảng cáo chiến dịch con phải > 0!");
+    } else {
+      alert("Thêm thành công chiến dịch <3" + JSON.stringify(data));
     }
-    // if (data.information.name === "") {
-    //   alert("Tên chiến dịch chưa được nhập đầy đủ!");
-    //   setFormValidate({
-    //     ...formValidate,
-    //     name: {
-    //       error: true,
-    //       errorMessage: "Vui lòng nhập tên chiến dịch!",
-    //     },
-    //   });
-    // } else if (data.subCampaigns.length === 0) {
-    //   alert("Thông tin chiến dịch con chưa được nhập đầy đủ!");
-    //   setFormValidate({
-    //     ...formValidate,
-    //     quantity: {
-    //       error: true,
-    //       errorMessage: "Vui lòng nhập số lượng > 0!",
-    //     },
-    //     nameSubCampaign: {
-    //       class: "text-red-500",
-    //     },
-    //   });
-    // } else {
-    //   alert("Thêm thành công chiến dịch <3" + JSON.stringify(data));
-    // }
   };
 
   return (
     <>
-      <Button
-        variant="outlined"
-        className="m-4 flex justify-end"
-        onClick={handleSubmit}
-      >
+      <Button variant="outlined" style={{ margin: 16 }} onClick={handleSubmit}>
         Submit
       </Button>
       <div className="underline_container "></div>
@@ -122,6 +92,7 @@ export default function LabTabs() {
               setData={setData}
               formValidate={formValidate}
               setFormValidate={setFormValidate}
+              submit={submit}
             />
           </TabPanel>
         </TabContext>

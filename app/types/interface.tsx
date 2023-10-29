@@ -8,8 +8,10 @@ export interface Campaign {
     {
       name: string;
       status: boolean;
+      sum?: number;
       ads: [
         {
+          id?: number;
           name: string;
           quantity: number;
         }
@@ -35,12 +37,5 @@ export interface FormValidate {
   name: {
     error: boolean;
     errorMessage: string;
-  };
-  quantity: {
-    error: boolean;
-    errorMessage: string;
-  };
-  nameSubCampaign: {
-    class: string;
   };
 }

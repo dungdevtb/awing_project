@@ -49,7 +49,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         </TableCell>
         {numSelected > 0 ? (
           <>
-            <TableCell className="flex justify-between">
+            <TableCell
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
               <Typography
                 sx={{ flex: "1 1 100%" }}
                 color="inherit"
@@ -90,8 +92,8 @@ export default function TableAdvertisement({
   setCampaignsArray,
   data,
   setData,
-  formValidate,
-  setFormValidate,
+
+  submit,
 }: any) {
   const [number, setNumber] = useState<any>(1);
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -169,17 +171,6 @@ export default function TableAdvertisement({
       ...data,
       subCampaigns: campaignsArray,
     });
-
-    setFormValidate({
-      ...formValidate,
-      quantity: {
-        error: false,
-        errorMessage: "",
-      },
-      nameSubCampaign: {
-        name: "",
-      },
-    });
   };
 
   const handleSelectAddvertise = (event: any, id: number) => {
@@ -201,6 +192,59 @@ export default function TableAdvertisement({
     setSelected(newSelected);
   };
 
+  const ListAdvertise = ({ isItemSelected, item, index, error }: any) => {
+    return (
+      <TableRow
+        aria-checked={isItemSelected}
+        tabIndex={-1}
+        key={item.id}
+        role="checkbox"
+        hover
+        selected={isItemSelected}
+      >
+        <TableCell padding="checkbox">
+          <Checkbox
+            color="primary"
+            checked={isItemSelected}
+            onChange={(e) => handleSelectAddvertise(e, item.id)}
+          />
+        </TableCell>
+        <TableCell component="th" scope="row">
+          <TextField
+            variant="standard"
+            className="w-full"
+            defaultValue={item.name}
+            onChange={(e) => (item.name = e.target.value)}
+          />
+        </TableCell>
+
+        <TableCell align="left">
+          <TextField
+            id="quantity"
+            variant="standard"
+            className="w-full"
+            type="number"
+            InputProps={{
+              inputProps: {
+                max: 100,
+                min: 0,
+              },
+            }}
+            error={error}
+            defaultValue={item.quantity}
+            onChange={(e) => handleChangeQuantity(e, index)}
+          />
+        </TableCell>
+        <TableCell align="right">
+          <Tooltip title="Xóa">
+            <IconButton onClick={() => handleDeleteAdvertise(index)}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        </TableCell>
+      </TableRow>
+    );
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -216,62 +260,39 @@ export default function TableAdvertisement({
           {campaign.ads.map((item: any, index: number) => {
             const isItemSelected = isSelected(item.id);
 
-            return (
-              <TableRow
-                aria-checked={isItemSelected}
-                tabIndex={-1}
-                key={item.id}
-                role="checkbox"
-                hover
-                selected={isItemSelected}
-              >
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    color="primary"
-                    checked={isItemSelected}
-                    onChange={(e) => handleSelectAddvertise(e, item.id)}
+            if (submit) {
+              if (item.quantity == 0) {
+                return (
+                  <ListAdvertise
+                    isItemSelected={isItemSelected}
+                    item={item}
+                    index={index}
+                    key={index}
+                    error={true}
                   />
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  <TextField
-                    variant="standard"
-                    className="w-full"
-                    defaultValue={item.name}
-                    onChange={(e) => (item.name = e.target.value)}
+                );
+              } else {
+                return (
+                  <ListAdvertise
+                    isItemSelected={isItemSelected}
+                    item={item}
+                    index={index}
+                    key={index}
+                    error={false}
                   />
-                </TableCell>
-                <TableCell align="left">
-                  {" "}
-                  <TextField
-                    id="quantity"
-                    variant="standard"
-                    className="w-full"
-                    type="number"
-                    InputProps={{
-                      inputProps: {
-                        max: 100,
-                        min: 0,
-                      },
-                    }}
-                    error={formValidate.quantity.error}
-                    // helperText={
-                    //   formValidate.quantity.error === true
-                    //     ? formValidate.quantity.errorMessage
-                    //     : ""
-                    // }
-                    defaultValue={item.quantity}
-                    onChange={(e) => handleChangeQuantity(e, index)}
-                  />
-                </TableCell>
-                <TableCell align="right">
-                  <Tooltip title="Xóa">
-                    <IconButton onClick={() => handleDeleteAdvertise(index)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Tooltip>
-                </TableCell>
-              </TableRow>
-            );
+                );
+              }
+            } else {
+              return (
+                <ListAdvertise
+                  item={item}
+                  index={index}
+                  key={index}
+                  error={false}
+                  isItemSelected={isItemSelected}
+                />
+              );
+            }
           })}
         </TableBody>
       </Table>

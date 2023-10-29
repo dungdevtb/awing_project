@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import {
@@ -17,6 +17,7 @@ export interface subCampaignsProps {
   setData: (data: any) => void;
   formValidate: FormValidate;
   setFormValidate: (formValidate: any) => void;
+  submit: boolean;
 }
 
 const ManageCampaign = ({
@@ -24,6 +25,7 @@ const ManageCampaign = ({
   setData,
   formValidate,
   setFormValidate,
+  submit,
 }: subCampaignsProps) => {
   const [campaignsArray, setCampaignsArray] = useState<Array<SubCampaigns>>([
     {
@@ -96,8 +98,34 @@ const ManageCampaign = ({
     });
   };
 
-  // console.log(campaignsArray);
-  console.log(data);
+  const CardCampaign = ({ item, index, color }: any) => {
+    return (
+      <Card
+        key={index}
+        className={
+          indexActive === index ? "ml-4  actived" : "ml-4 cursor-pointer"
+        }
+        onClick={() => setIndexActive(index)}
+      >
+        <CardContent>
+          <div className="flex items-center">
+            <Typography variant="h5" component="div" style={{ color: color }}>
+              {item.name}
+            </Typography>
+
+            <i className={item.status ? " ml-2 icon_checked" : "ml-2"}>
+              <CheckCircleIcon style={{ fontSize: 18 }} />
+            </i>
+          </div>
+          <div className="flex items-center justify-center mt-4">
+            <Typography variant="h5" component="div">
+              {campaignsArray[index].sum}
+            </Typography>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
 
   return (
     <div>
@@ -108,36 +136,28 @@ const ManageCampaign = ({
         >
           <AddIcon style={{ color: "#f50057" }} />
         </i>
-        {campaignsArray.map((item: any, index: any) => (
-          <Card
-            key={index}
-            className={
-              indexActive === index ? "ml-4  actived" : "ml-4 cursor-pointer"
+        {campaignsArray.map((item: any, index: any) => {
+          if (submit) {
+            if (item.ads.find((ad: any) => ad.quantity === 0)) {
+              return (
+                <CardCampaign
+                  item={item}
+                  index={index}
+                  key={index}
+                  color="red"
+                />
+              );
+            } else {
+              return (
+                <CardCampaign item={item} index={index} key={index} color="" />
+              );
             }
-            onClick={() => setIndexActive(index)}
-          >
-            <CardContent>
-              <div className="flex items-center">
-                <Typography
-                  variant="h5"
-                  component="div"
-                  className={formValidate.nameSubCampaign.class}
-                >
-                  {item.name}
-                </Typography>
-
-                <i className={item.status ? " ml-2 icon_checked" : "ml-2"}>
-                  <CheckCircleIcon style={{ fontSize: 18 }} />
-                </i>
-              </div>
-              <div className="flex items-center justify-center mt-4">
-                <Typography variant="h5" component="div">
-                  {campaignsArray[index].sum}
-                </Typography>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+          } else {
+            return (
+              <CardCampaign item={item} index={index} key={index} color="" />
+            );
+          }
+        })}
       </div>
 
       {campaignsArray.map((item: any, index: number) => {
@@ -177,8 +197,7 @@ const ManageCampaign = ({
                   setCampaignsArray={setCampaignsArray}
                   data={data}
                   setData={setData}
-                  formValidate={formValidate}
-                  setFormValidate={setFormValidate}
+                  submit={submit}
                 />
               </>
             );
